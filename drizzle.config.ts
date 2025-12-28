@@ -5,8 +5,9 @@ dotenv.config();
 export default {
     schema: './db/schema.ts',
     out: './drizzle',
-    dialect: 'sqlite',
+    dialect: 'turso',
     dbCredentials: {
-        url: process.env.DATABASE_URL || 'sqlite.db',
+        url: process.env.TURSO_DATABASE_URL || 'file:sqlite.db',
+        authToken: process.env.TURSO_AUTH_TOKEN,
     },
 } satisfies Config;
