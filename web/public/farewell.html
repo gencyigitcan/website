@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farewell Message Board</title>
+    <!-- Fonts: Outfit for modern, clean look; Calistoga for a touch of warmth in headers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Calistoga', 'serif'], // Added for "premium" headers
+                    },
+                    colors: {
+                        glass: 'rgba(255, 255, 255, 0.08)',
+                        glassBorder: 'rgba(255, 255, 255, 0.12)',
+                        primary: '#6366f1', // Indigo
+                        secondary: '#ec4899', // Pink
+                        accent: '#8b5cf6', // Violet
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'blob': 'blob 10s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-glass backdrop-blur-xl border border-glassBorder shadow-2xl;
+            }
+            .text-gradient {
+                @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+            }
+            .input-field {
+                @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all font-sans;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        body {
+            background-color: #05050a; /* Very dark base */
+            color: #f8fafc;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden selection:bg-pink-500/30">
+
+    <!-- Fixed Background Gradients -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div
+            class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/30 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob">
+        </div>
+        <div
+            class="absolute top-1/4 right-1/4 w-[30rem] h-[30rem] bg-pink-600/30 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob animation-delay-2000">
+        </div>
+        <div
+            class="absolute -bottom-32 left-1/3 w-96 h-96 bg-purple-600/30 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob animation-delay-4000">
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-white/5 bg-black/20 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2 group">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-xl shadow-lg group-hover:scale-110 transition-transform">
+                    ✨
+                </div>
+                <span
+                    class="font-serif text-2xl tracking-wide group-hover:text-white/90 transition-colors">Farewell<span
+                        class="text-pink-400">Board</span></span>
+            </a>
+            <button onclick="alert('Login functionality would go here!')"
+                class="hidden sm:block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-all text-sm font-medium tracking-wide">
+                Sign In
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
+        <span
+            class="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-xs font-medium tracking-wider mb-6 text-indigo-300 uppercase">Farewell
+            Message Board</span>
+        <h1 class="font-serif text-5xl md:text-7xl mb-6 leading-tight">
+            Wish You <br>
+            <span class="text-gradient">All The Best!</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            A digital collection of fond memories, warm wishes, and heartfelt goodbyes for our next adventure.
+        </p>
+        <button onclick="openModal()"
+            class="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-pink-600 rounded-full text-white font-bold text-lg shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300 overflow-hidden">
+            <span class="relative z-10 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                    </path>
+                </svg>
+                Write a Message
+            </span>
+            <div
+                class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+            </div>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 pb-24 max-w-[1600px] mx-auto">
+        <div id="card-grid" class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+            <!-- Cards injected via JS -->
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="write-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+
+        <!-- Content -->
+        <div
+            class="glass-panel w-full max-w-lg p-8 rounded-3xl transform scale-95 transition-all duration-300 relative z-10 m-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-serif text-3xl text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+                    Leave a Message</h2>
+                <button onclick="closeModal()"
+                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white/70 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="message-form" onsubmit="handleSubmit(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2 ml-1">Your Name</label>
+                    <input type="text" id="input-name" required placeholder="e.g. Alex Doe" class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2 ml-1">Your Message</label>
+                    <textarea id="input-message" rows="4" required placeholder="Write something heartfelt..."
+                        class="input-field resize-none"></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 font-bold text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transform hover:-translate-y-1 transition-all">
+                    Post Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Use local state if localStorage is empty, else load
+        const initialMessages = [
+            { id: 1, name: "Sarah J.", text: "It's been an incredible journey working with you. I'll miss our coffee breaks!", img: "https://picsum.photos/seed/farewell1/400/300" },
+            { id: 2, name: "Mike Ross", text: "Good luck on your new adventure! You're going to crush it.", img: "https://picsum.photos/seed/farewell2/400/350" },
+            { id: 3, name: "Emily Blunt", text: "Thank you for being such a great mentor. Don't be a stranger!", img: "https://picsum.photos/seed/farewell3/400/250" },
+            { id: 4, name: "David K.", text: "Sad to see you go, but happy for your growth. Keep shining!", img: "https://picsum.photos/seed/farewell4/400/300" },
+            { id: 5, name: "Jessica P.", text: "The office won't be the same without your jokes. All the best!", img: "https://picsum.photos/seed/farewell5/400/280" },
+            { id: 6, name: "Tom Holland", text: "Wishing you success and happiness in everything you do.", img: "https://picsum.photos/seed/farewell6/400/220" },
+            { id: 7, name: "Chris E.", text: "You've made a lasting impact here. Farewell and good luck!", img: "https://picsum.photos/seed/farewell7/400/320" },
+            { id: 8, name: "Natasha R.", text: "Cheers to new beginnings! Let's keep in touch.", img: "https://picsum.photos/seed/farewell8/400/290" },
+            { id: 9, name: "Bruce W.", text: "It was an honor working beside you. Best of luck!", img: "https://picsum.photos/seed/farewell9/400/310" },
+            { id: 10, name: "Tony S.", text: "Don't forget us when you're famous! Goodbye my friend.", img: "https://picsum.photos/seed/farewell10/400/300" }
+        ];
+
+        let messages = [...initialMessages];
+
+        function renderCards() {
+            const grid = document.getElementById('card-grid');
+            grid.innerHTML = '';
+
+            messages.forEach((msg, index) => {
+                const card = document.createElement('div');
+                card.className = 'glass-panel rounded-2xl p-4 break-inside-avoid mb-6 hover:-translate-y-2 transition-transform duration-300 group';
+                card.style.animation = `float 0.5s ease-out backwards ${index * 0.1}s`;
+
+                // Initials
+                const initials = msg.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                // Random gradient for avatar
+                const gradients = [
+                    'from-pink-500 to-rose-500',
+                    'from-indigo-500 to-blue-500',
+                    'from-purple-500 to-violet-500',
+                    'from-teal-500 to-emerald-500',
+                    'from-orange-500 to-amber-500'
+                ];
+                const randomGrad = gradients[Math.floor(Math.random() * gradients.length)];
+
+                card.innerHTML = `
+                    <div class="relative overflow-hidden rounded-xl mb-4 h-48 bg-gray-800">
+                        <img src="${msg.img}" alt="Memory" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <p class="font-sans text-slate-200 italic leading-relaxed">"${msg.text}"</p>
+                        <div class="flex items-center gap-3 mt-2 pt-3 border-t border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br ${randomGrad} flex items-center justify-center text-white font-bold text-sm shadow-md">
+                                ${initials}
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-white text-sm tracking-wide">${msg.name}</span>
+                                <span class="text-xs text-slate-400">Dec 25</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.prepend(card);
+            });
+        }
+
+        function openModal() {
+            const modal = document.getElementById('write-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div.glass-panel').classList.remove('scale-95');
+            modal.querySelector('div.glass-panel').classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('write-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div.glass-panel').classList.remove('scale-100');
+            modal.querySelector('div.glass-panel').classList.add('scale-95');
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('input-name').value;
+            const text = document.getElementById('input-message').value;
+
+            if (name && text) {
+                const newMessage = {
+                    id: Date.now(),
+                    name: name,
+                    text: text,
+                    img: `https://picsum.photos/seed/${Date.now()}/400/300`
+                };
+
+                messages.push(newMessage);
+                e.target.reset();
+                closeModal();
+                renderCards();
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+        });
+
+        // Close on Esc
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+
+</html>

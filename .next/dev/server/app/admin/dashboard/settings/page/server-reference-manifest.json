@@ -1,0 +1,50 @@
+{
+  "node": {
+    "00f4fb5eb3be3ed0aca34683c4f23cc8d8cf540698": {
+      "workers": {
+        "app/admin/dashboard/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/settings.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "logout",
+          "filename": "app/actions/auth.ts"
+        }
+      },
+      "layer": {
+        "app/admin/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "logout",
+      "filename": "app/actions/auth.ts"
+    },
+    "40c26afba79d364ae49d3de1075969ba5557ef9ec8": {
+      "workers": {
+        "app/admin/dashboard/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/settings.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateSettings",
+          "filename": "app/actions/settings.ts"
+        }
+      },
+      "layer": {
+        "app/admin/dashboard/settings/page": "rsc"
+      },
+      "exportedName": "updateSettings",
+      "filename": "app/actions/settings.ts"
+    },
+    "605903fbe4ee6b6cd53fc4efde62fc75728cc7c67a": {
+      "workers": {
+        "app/admin/dashboard/settings/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/settings/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/actions/auth.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/app/actions/settings.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/app/actions/profile.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updatePassword",
+          "filename": "app/actions/profile.ts"
+        }
+      },
+      "layer": {
+        "app/admin/dashboard/settings/page": "action-browser"
+      },
+      "exportedName": "updatePassword",
+      "filename": "app/actions/profile.ts"
+    }
+  },
+  "edge": {}
+}
