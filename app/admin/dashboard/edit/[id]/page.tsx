@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
 export default async function EditProjectPage({ params }: { params: { id: string } }) {
-    const project = await db.select().from(cards).where(eq(cards.id, params.id)).get()
+    const [project] = await db.select().from(cards).where(eq(cards.id, params.id)).limit(1)
 
     if (!project) {
         redirect('/admin/dashboard')

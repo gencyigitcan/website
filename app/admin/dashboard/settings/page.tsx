@@ -6,7 +6,7 @@ import { Save } from 'lucide-react'
 import PasswordForm from './PasswordForm'
 
 export default async function SettingsPage() {
-    const settings = await db.select().from(siteSettings).where(eq(siteSettings.id, 'default')).get()
+    const [settings] = await db.select().from(siteSettings).where(eq(siteSettings.id, 'default')).limit(1)
 
     // Fallback if not seeded (should be seeded though)
     const defaults = {

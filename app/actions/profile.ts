@@ -32,7 +32,7 @@ export async function updatePassword(prevState: any, formData: FormData) {
         // I will assume for this specific request we are updating the main admin user. 
         // To be safer, I'll fetch the first admin found or specific email.
 
-        const user = await db.select().from(admins).limit(1).get(); // Get the single admin
+        const [user] = await db.select().from(admins).limit(1); // Get the single admin
 
         if (!user) {
             return { message: 'User not found', success: false }

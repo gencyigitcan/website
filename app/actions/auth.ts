@@ -16,7 +16,7 @@ export async function login(prevState: any, formData: FormData) {
     }
 
     try {
-        const user = await db.select().from(admins).where(eq(admins.email, email)).get()
+        const [user] = await db.select().from(admins).where(eq(admins.email, email)).limit(1)
 
         if (!user) {
             return { message: 'Invalid credentials' }

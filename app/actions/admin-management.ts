@@ -15,7 +15,7 @@ export async function createAdmin(prevState: any, formData: FormData) {
     }
 
     try {
-        const existing = await db.select().from(admins).where(eq(admins.email, email)).get()
+        const [existing] = await db.select().from(admins).where(eq(admins.email, email)).limit(1)
         if (existing) {
             return { message: 'Admin with this email already exists' }
         }
@@ -38,7 +38,8 @@ export async function createAdmin(prevState: any, formData: FormData) {
 export async function deleteAdmin(id: string) {
     try {
         // Prevent deleting the last admin
-        const allAdmins = await db.select().from(admins).all()
+        console.log('Checking last admin...')
+        const allAdmins = await db.select().from(admins)
         if (allAdmins.length <= 1) {
             console.log('Cannot delete the last admin')
             return
