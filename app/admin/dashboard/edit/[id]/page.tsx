@@ -6,7 +6,8 @@ import { cards } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
-export default async function EditProjectPage({ params }: { params: { id: string } }) {
+export default async function EditProjectPage(props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     const [project] = await db.select().from(cards).where(eq(cards.id, params.id)).limit(1)
 
     if (!project) {
