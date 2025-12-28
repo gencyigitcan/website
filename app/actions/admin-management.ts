@@ -37,21 +37,16 @@ export async function createAdmin(prevState: any, formData: FormData) {
 
 export async function deleteAdmin(id: string) {
     try {
-        // Prevent deleting the last admin or "super admin" if needed but simplified here
+        // Prevent deleting the last admin
         const allAdmins = await db.select().from(admins).all()
         if (allAdmins.length <= 1) {
-            // In server actions, returning simple values is better, but this is a void/redirect usually.
-            // But for a button action we might want feedback. For now simple toggle/delete.
-            // We can't return to the form state easily from a bind action unless we use useFormState there too.
-            // Let's just log and ignore for now or assume risk.
-            return { message: 'Cannot delete the last admin' }
+            console.log('Cannot delete the last admin')
+            return
         }
 
         await db.delete(admins).where(eq(admins.id, id))
         revalidatePath('/admin/dashboard/admins')
-        return { success: true }
     } catch (e) {
         console.error('Delete admin error:', e)
-        return { message: 'Failed to delete admin' }
     }
 }
