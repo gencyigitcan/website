@@ -13,7 +13,8 @@ export async function createProject(formData: FormData) {
     const isActive = formData.get('isActive') === 'on'
 
     if (!title || !description || !subdomainUrl) {
-        return { message: 'Missing fields' }
+        // Handle validation error (could throw or just return)
+        return
     }
 
     try {
@@ -24,7 +25,9 @@ export async function createProject(formData: FormData) {
             isActive
         })
     } catch (e) {
-        return { message: 'Failed to create project' }
+        console.error('Failed to create project', e)
+        // If we fail, we might want to return early or throw, but for simple actions we'll concise it
+        return
     }
 
     revalidatePath('/')
@@ -47,7 +50,8 @@ export async function updateProject(id: string, formData: FormData) {
             updatedAt: new Date()
         }).where(eq(cards.id, id))
     } catch (e) {
-        return { message: 'Failed to update project' }
+        console.error('Failed to update project', e)
+        return
     }
 
     revalidatePath('/')
