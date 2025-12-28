@@ -19,7 +19,8 @@ export async function updateSettings(formData: FormData) {
             updatedAt: new Date()
         }).where(eq(siteSettings.id, 'default'))
     } catch (e) {
-        return { message: 'Failed to update settings' }
+        console.error('Failed to update settings', e)
+        return
     }
 
     revalidatePath('/')
