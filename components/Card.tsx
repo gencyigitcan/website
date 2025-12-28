@@ -27,12 +27,17 @@ export default function Card({ title, description, url, isContact }: CardProps) 
     const initials = title.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
     const isInternal = url.startsWith('/');
+    let href = url;
+    if (!isInternal && !url.match(/^https?:\/\//) && !url.startsWith('mailto:')) {
+        href = `https://${url}`;
+    }
+
     const target = isContact || isInternal ? "_self" : "_blank";
     const rel = isContact || isInternal ? "" : "noopener noreferrer";
 
     return (
         <a
-            href={url}
+            href={href}
             target={target}
             rel={rel}
             className="glass-panel block rounded-2xl p-4 break-inside-avoid hover:-translate-y-2 transition-transform duration-300 group flex flex-col h-full"

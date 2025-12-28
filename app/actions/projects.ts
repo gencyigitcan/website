@@ -9,7 +9,12 @@ import { redirect } from 'next/navigation'
 export async function createProject(formData: FormData) {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
-    const subdomainUrl = formData.get('subdomainUrl') as string
+    let subdomainUrl = formData.get('subdomainUrl') as string
+
+    if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
+        subdomainUrl = `https://${subdomainUrl}`
+    }
+
     const isActive = formData.get('isActive') === 'on'
 
     if (!title || !description || !subdomainUrl) {
@@ -38,7 +43,12 @@ export async function createProject(formData: FormData) {
 export async function updateProject(id: string, formData: FormData) {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
-    const subdomainUrl = formData.get('subdomainUrl') as string
+    let subdomainUrl = formData.get('subdomainUrl') as string
+
+    if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
+        subdomainUrl = `https://${subdomainUrl}`
+    }
+
     const isActive = formData.get('isActive') === 'on'
 
     try {
