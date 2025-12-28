@@ -32,8 +32,9 @@ export async function login(prevState: any, formData: FormData) {
         (await cookies()).set('admin_session', 'true', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 60 * 60 * 24 // 1 day
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7 // 7 days
         })
 
     } catch (e) {
