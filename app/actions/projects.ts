@@ -10,6 +10,7 @@ export async function createProject(formData: FormData) {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
     let subdomainUrl = formData.get('subdomainUrl') as string
+    const imageUrl = formData.get('imageUrl') as string | null
 
     if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
         subdomainUrl = `https://${subdomainUrl}`
@@ -27,6 +28,7 @@ export async function createProject(formData: FormData) {
             title,
             description,
             subdomainUrl,
+            imageUrl,
             isActive
         })
     } catch (e) {
@@ -44,6 +46,7 @@ export async function updateProject(id: string, formData: FormData) {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
     let subdomainUrl = formData.get('subdomainUrl') as string
+    const imageUrl = formData.get('imageUrl') as string | null
 
     if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
         subdomainUrl = `https://${subdomainUrl}`
@@ -56,6 +59,7 @@ export async function updateProject(id: string, formData: FormData) {
             title,
             description,
             subdomainUrl,
+            imageUrl,
             isActive,
             updatedAt: new Date()
         }).where(eq(cards.id, id))

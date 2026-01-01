@@ -83,6 +83,7 @@ export default async function Home() {
                     title={project.title}
                     description={project.description}
                     url={cardUrl}
+                    imageUrl={project.imageUrl}
                     isContact={false} // Explicitly set false to ensure _self target logic applies if we want, OR we need to update Card to handle internal links for /coming-soon
                   />
                 )

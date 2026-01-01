@@ -37,6 +37,16 @@ export default function CreateProjectPage() {
                 </div>
 
                 <div>
+                    <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">Image URL (Optional)</label>
+                    <input
+                        name="imageUrl"
+                        type="text"
+                        className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
+                        placeholder="https://... (Leave empty for default gradient)"
+                    />
+                </div>
+
+                <div>
                     <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">Description</label>
                     <textarea
                         name="description"

@@ -8,10 +8,11 @@ interface CardProps {
     title: string
     description: string
     url: string
+    imageUrl?: string | null
     isContact?: boolean
 }
 
-export default function Card({ title, description, url, isContact }: CardProps) {
+export default function Card({ title, description, url, imageUrl, isContact }: CardProps) {
     const { theme } = useTheme()
 
     const gradients = [
@@ -40,14 +41,25 @@ export default function Card({ title, description, url, isContact }: CardProps) 
             href={href}
             target={target}
             rel={rel}
-            className="glass-panel block rounded-2xl p-4 break-inside-avoid hover:-translate-y-2 transition-transform duration-300 group flex flex-col h-full"
+            className="glass-panel block rounded-2xl p-4 break-inside-avoid hover:-translate-y-2 transition-transform duration-300 group flex flex-col aspect-square"
         >
             {/* Visual Header */}
-            <div className={`relative overflow-hidden rounded-xl mb-4 h-32 bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500`}>
-                <span className="font-serif text-4xl text-white/95 font-bold tracking-widest drop-shadow-sm">
-                    {initials}
-                </span>
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+            {/* Visual Header */}
+            <div className={`relative overflow-hidden rounded-xl mb-4 h-32 flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500 ${!imageUrl ? `bg-gradient-to-br ${gradient}` : 'bg-gray-100 dark:bg-white/5'}`}>
+                {imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt={title}
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <>
+                        <span className="font-serif text-4xl text-white/95 font-bold tracking-widest drop-shadow-sm">
+                            {initials}
+                        </span>
+                        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                    </>
+                )}
             </div>
 
             <div className="flex flex-col gap-3 flex-1">

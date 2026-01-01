@@ -5,6 +5,7 @@ export const cards = sqliteTable('cards', {
     title: text('title').notNull(),
     description: text('description').notNull(),
     subdomainUrl: text('subdomain_url').notNull(),
+    imageUrl: text('image_url'),
     isActive: integer('is_active', { mode: 'boolean' }).default(true),
     createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
