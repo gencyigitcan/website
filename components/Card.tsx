@@ -16,11 +16,11 @@ export default function Card({ title, description, url, imageUrl, isContact }: C
     const { theme } = useTheme()
 
     const gradients = [
-        'from-pink-500 to-rose-500',
-        'from-indigo-500 to-blue-500',
-        'from-purple-500 to-violet-500',
-        'from-teal-500 to-emerald-500',
-        'from-orange-500 to-amber-500'
+        'from-pink-600 to-rose-600',
+        'from-indigo-600 to-blue-600',
+        'from-violet-600 to-indigo-600',
+        'from-teal-600 to-emerald-600',
+        'from-orange-600 to-amber-600'
     ];
     const hash = title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const gradient = gradients[hash % gradients.length];

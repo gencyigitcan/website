@@ -11,7 +11,7 @@ function SubmitButton() {
         <button
             type="submit"
             disabled={pending}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 active:translate-y-0 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-bold text-white shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:-translate-y-1 active:translate-y-0 transition-all disabled:opacity-50 disabled:pointer-events-none"
         >
             {pending ? 'Authenticating...' : 'Access Safe'}
         </button>
@@ -27,7 +27,7 @@ export default function AdminLogin() {
 
             <div className="glass-panel w-full max-w-md p-8 rounded-3xl animate-float">
                 <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg transform rotate-3">
+                    <div className="w-16 h-16 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg transform rotate-3">
                         <Lock className="text-white" size={32} />
                     </div>
                     <h1 className="font-serif text-3xl font-bold mb-2 text-fg-primary">Admin Portal</h1>
@@ -45,7 +45,7 @@ export default function AdminLogin() {
                         <input
                             name="email"
                             type="email"
-                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all placeholder:opacity-20 text-fg-primary"
+                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/50 transition-all placeholder:opacity-20 text-fg-primary"
                             placeholder="user@example.com"
                         />
                     </div>
@@ -54,7 +54,7 @@ export default function AdminLogin() {
                         <input
                             name="password"
                             type="password"
-                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-pink-500/50 focus:ring-1 focus:ring-pink-500/50 transition-all placeholder:opacity-20 text-fg-primary"
+                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 text-fg-primary"
                             placeholder="••••••••"
                         />
                     </div>

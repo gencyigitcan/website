@@ -14,10 +14,10 @@ export default function AdminSidebar() {
         <aside className="w-64 border-r border-white/5 bg-black/5 backdrop-blur-xl flex flex-col fixed h-full z-10 hidden md:flex">
             <div className="p-6 border-b border-white/5">
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-sm font-bold text-white shadow-lg">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-sm font-bold text-white shadow-lg">
                         YG
                     </div>
-                    <span className="font-serif text-lg tracking-wide text-fg-primary">Admin<span className="text-pink-500">Panel</span></span>
+                    <span className="font-serif text-lg tracking-wide text-fg-primary">Admin<span className="text-violet-500">Panel</span></span>
                 </Link>
             </div>
 
@@ -29,7 +29,7 @@ export default function AdminSidebar() {
                         : 'hover:bg-white/5 text-fg-secondary hover:text-fg-primary'
                         }`}
                 >
-                    <LayoutDashboard size={18} className={isActive('/admin/dashboard') ? "text-purple-400" : ""} />
+                    <LayoutDashboard size={18} className={isActive('/admin/dashboard') ? "text-violet-400" : ""} />
                     Projects
                 </Link>
 
