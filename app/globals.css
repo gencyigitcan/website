@@ -121,7 +121,7 @@ body {
 
 
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-600 to-blue-800;
 }
 
 /* Custom Scrollbar - Adaptive */
