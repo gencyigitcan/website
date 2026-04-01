@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { ExternalLink } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
 import clsx from 'clsx'
@@ -10,10 +11,33 @@ interface CardProps {
     url: string
     imageUrl?: string | null
     isContact?: boolean
+    isRestricted?: boolean
 }
 
-export default function Card({ title, description, url, imageUrl, isContact }: CardProps) {
+export default function Card({ title, description, url, imageUrl, isContact, isRestricted }: CardProps) {
     const { theme } = useTheme()
+    const [lang, setLang] = useState<'tr' | 'en'>('en')
+    const [imgError, setImgError] = useState(false)
+
+    useEffect(() => {
+        const browserLang = navigator.language.split('-')[0];
+        setLang(browserLang === 'tr' ? 'tr' : 'en');
+    }, []);
+
+    const translations = {
+        tr: {
+            contact: 'İletişime Geç',
+            private: 'ÖZEL PROJE',
+            live: 'YAYINDA'
+        },
+        en: {
+            contact: 'Contact Me',
+            private: 'PRIVATE',
+            live: 'LIVE PROJECT'
+        }
+    };
+
+    const t = translations[lang];
 
     const gradients = [
         'from-blue-600 to-indigo-700',
@@ -45,12 +69,13 @@ export default function Card({ title, description, url, imageUrl, isContact }: C
         >
             {/* Visual Header */}
             {/* Visual Header */}
-            <div className={`relative overflow-hidden rounded-xl mb-4 h-32 flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500 ${!imageUrl ? `bg-gradient-to-br ${gradient}` : 'bg-gray-100 dark:bg-white/5'}`}>
-                {imageUrl ? (
+            <div className={`relative overflow-hidden rounded-xl mb-4 h-32 flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500 ${(!imageUrl || imgError) ? `bg-gradient-to-br ${gradient}` : 'bg-gray-100 dark:bg-white/5'}`}>
+                {(imageUrl && !imgError) ? (
                     <img
                         src={imageUrl}
                         alt={title}
                         className="w-full h-full object-cover"
+                        onError={() => setImgError(true)}
                     />
                 ) : (
                     <>
@@ -75,13 +100,15 @@ export default function Card({ title, description, url, imageUrl, isContact }: C
                 <div className="mt-auto pt-4 flex items-center gap-2 border-t border-dashed" style={{ borderColor: 'var(--card-border)' }}>
                     <div className={clsx(
                         "h-1.5 w-1.5 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.6)]",
-                        isContact ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : "bg-emerald-400"
+                        isContact ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : 
+                        isRestricted ? "bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "bg-emerald-400"
                     )}></div>
                     <span className="text-xs text-fg-muted font-medium tracking-wide uppercase">
-                        {isContact ? 'Contact Me' : 'Live Project'}
+                        {isContact ? t.contact : isRestricted ? t.private : t.live}
                     </span>
                 </div>
             </div>
         </a>
     )
 }
+

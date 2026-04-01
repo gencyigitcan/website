@@ -10,7 +10,11 @@ export async function createProject(formData: FormData) {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
     let subdomainUrl = formData.get('subdomainUrl') as string
-    const imageUrl = formData.get('imageUrl') as string | null
+    const imageUrlRaw = formData.get('imageUrl') as string | null
+    const imageUrl = (imageUrlRaw && imageUrlRaw.trim() !== '') ? imageUrlRaw.trim() : null
+    const slug = formData.get('slug') as string
+    const isComingSoon = formData.get('isComingSoon') === 'on'
+    const comingSoonText = formData.get('comingSoonText') as string
 
     if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
         subdomainUrl = `https://${subdomainUrl}`
@@ -18,8 +22,8 @@ export async function createProject(formData: FormData) {
 
     const isActive = formData.get('isActive') === 'on'
 
-    if (!title || !description || !subdomainUrl) {
-        // Handle validation error (could throw or just return)
+    if (!title || !description || (!subdomainUrl && !isComingSoon)) {
+        // Handle validation error
         return
     }
 
@@ -27,13 +31,15 @@ export async function createProject(formData: FormData) {
         await db.insert(cards).values({
             title,
             description,
-            subdomainUrl,
+            subdomainUrl: subdomainUrl || '#',
             imageUrl,
-            isActive
+            isActive,
+            isComingSoon,
+            comingSoonText,
+            slug: slug || undefined
         })
     } catch (e) {
         console.error('Failed to create project', e)
-        // If we fail, we might want to return early or throw, but for simple actions we'll concise it
         return
     }
 
@@ -46,7 +52,11 @@ export async function updateProject(id: string, formData: FormData) {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
     let subdomainUrl = formData.get('subdomainUrl') as string
-    const imageUrl = formData.get('imageUrl') as string | null
+    const imageUrlRaw = formData.get('imageUrl') as string | null
+    const imageUrl = (imageUrlRaw && imageUrlRaw.trim() !== '') ? imageUrlRaw.trim() : null
+    const slug = formData.get('slug') as string
+    const isComingSoon = formData.get('isComingSoon') === 'on'
+    const comingSoonText = formData.get('comingSoonText') as string
 
     if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
         subdomainUrl = `https://${subdomainUrl}`
@@ -58,9 +68,12 @@ export async function updateProject(id: string, formData: FormData) {
         await db.update(cards).set({
             title,
             description,
-            subdomainUrl,
+            subdomainUrl: subdomainUrl || '#',
             imageUrl,
             isActive,
+            isComingSoon,
+            comingSoonText,
+            slug: slug || null,
             updatedAt: new Date()
         }).where(eq(cards.id, id))
     } catch (e) {

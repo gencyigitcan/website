@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Globe, LogOut, Settings, Users } from 'lucide-react'
@@ -7,6 +8,26 @@ import { logout } from '@/app/actions/auth'
 
 export default function AdminSidebar() {
     const pathname = usePathname()
+    const [lang, setLang] = useState<'tr' | 'en'>('en')
+
+    useEffect(() => {
+        const browserLang = navigator.language.split('-')[0];
+        setLang(browserLang === 'tr' ? 'tr' : 'en');
+    }, []);
+
+    const t = lang === 'tr' ? {
+        projects: 'Projeler',
+        admins: 'Yöneticiler',
+        settings: 'Site Ayarları',
+        view: 'Siteyi Görüntüle',
+        signout: 'Çıkış Yap'
+    } : {
+        projects: 'Projects',
+        admins: 'Admins',
+        settings: 'Site Settings',
+        view: 'View Site',
+        signout: 'Sign Out'
+    }
 
     const isActive = (path: string) => pathname === path
 
@@ -30,7 +51,7 @@ export default function AdminSidebar() {
                         }`}
                 >
                     <LayoutDashboard size={18} className={isActive('/admin/dashboard') ? "text-blue-400" : ""} />
-                    Projects
+                    {t.projects}
                 </Link>
 
                 <Link
@@ -41,7 +62,7 @@ export default function AdminSidebar() {
                         }`}
                 >
                     <Users size={18} className={isActive('/admin/dashboard/admins') ? "text-pink-400" : ""} />
-                    Admins
+                    {t.admins}
                 </Link>
 
                 <Link
@@ -52,14 +73,14 @@ export default function AdminSidebar() {
                         }`}
                 >
                     <Settings size={18} className={isActive('/admin/dashboard/settings') ? "text-emerald-400" : ""} />
-                    Site Settings
+                    {t.settings}
                 </Link>
 
                 <div className="my-4 border-t border-white/5" />
 
                 <a href="/" target="_blank" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-fg-secondary hover:text-fg-primary transition-all">
                     <Globe size={18} />
-                    View Site
+                    {t.view}
                 </a>
             </nav>
 
@@ -69,7 +90,7 @@ export default function AdminSidebar() {
                     className="w-full flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-all text-sm font-medium"
                 >
                     <LogOut size={16} />
-                    Sign Out
+                    {t.signout}
                 </button>
             </div>
         </aside>

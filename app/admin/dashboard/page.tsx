@@ -2,25 +2,54 @@ import { db } from '@/lib/db'
 import { cards } from '@/db/schema'
 import { desc } from 'drizzle-orm'
 import Link from 'next/link'
-import { Plus, Edit2, Trash2, ExternalLink, Power } from 'lucide-react'
+import { Plus, Edit2, Trash2, ExternalLink, Power, Lock } from 'lucide-react'
 import { deleteProject, toggleProject } from '@/app/actions/projects'
+
+import { headers } from 'next/headers'
 
 export default async function Dashboard() {
     const projects = await db.select().from(cards).orderBy(desc(cards.createdAt))
+    const headerList = await headers();
+    const acceptLanguage = headerList.get('accept-language') || 'en';
+    const isTurkish = acceptLanguage.startsWith('tr');
+
+    const t = isTurkish ? {
+        title: 'Projeler',
+        subtitle: 'Portfolyo projelerini yönetin.',
+        btnNew: 'Yeni Proje',
+        active: 'Aktif',
+        draft: 'Taslak',
+        restricted: 'Kısıtlı',
+        deactivate: 'Pasif Yap',
+        activate: 'Aktif Yap',
+        edit: 'Düzenle',
+        delete: 'Sil'
+    } : {
+        title: 'Projects',
+        subtitle: 'Manage your portfolio showcase items.',
+        btnNew: 'New Project',
+        active: 'Active',
+        draft: 'Draft',
+        restricted: 'Restricted',
+        deactivate: 'Deactivate',
+        activate: 'Activate',
+        edit: 'Edit',
+        delete: 'Delete'
+    }
 
     return (
         <div>
             <header className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-serif font-bold text-fg-primary mb-2">Projects</h1>
-                    <p className="text-fg-secondary">Manage your portfolio showcase items.</p>
+                    <h1 className="text-3xl font-serif font-bold text-fg-primary mb-2">{t.title}</h1>
+                    <p className="text-fg-secondary">{t.subtitle}</p>
                 </div>
                 <Link
                     href="/admin/dashboard/create"
                     className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-pink-600 text-white font-bold shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-1 transition-all"
                 >
                     <Plus size={20} />
-                    New Project
+                    {t.btnNew}
                 </Link>
             </header>
 
@@ -38,9 +67,15 @@ export default async function Dashboard() {
                             <div className="flex items-center gap-3 mb-1">
                                 <h3 className="text-lg font-bold text-fg-primary truncate">{project.title}</h3>
                                 {project.isActive ? (
-                                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-medium uppercase tracking-wide">Active</span>
+                                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-medium uppercase tracking-wide">{t.active}</span>
                                 ) : (
-                                    <span className="px-2 py-0.5 rounded-full bg-slate-500/10 border border-slate-500/20 text-slate-500 text-xs font-medium uppercase tracking-wide">Draft</span>
+                                    <span className="px-2 py-0.5 rounded-full bg-slate-500/10 border border-slate-500/20 text-slate-500 text-xs font-medium uppercase tracking-wide">{t.draft}</span>
+                                )}
+                                {project.isComingSoon && (
+                                    <span className={`px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-500 text-xs font-medium uppercase tracking-wide flex items-center gap-1`}>
+                                        <Lock size={10} />
+                                        {t.restricted}
+                                    </span>
                                 )}
                             </div>
                             <p className="text-sm text-fg-secondary truncate">{project.subdomainUrl}</p>
@@ -48,17 +83,17 @@ export default async function Dashboard() {
 
                         <div className="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
                             <form action={toggleProject.bind(null, project.id, !project.isActive)}>
-                                <button title={project.isActive ? "Deactivate" : "Activate"} className="p-2 rounded-lg hover:bg-white/10 text-fg-muted hover:text-fg-primary transition-colors">
+                                <button title={project.isActive ? t.deactivate : t.activate} className="p-2 rounded-lg hover:bg-white/10 text-fg-muted hover:text-fg-primary transition-colors">
                                     <Power size={18} className={project.isActive ? "text-emerald-400" : "text-slate-400"} />
                                 </button>
                             </form>
 
-                            <Link href={`/admin/dashboard/edit/${project.id}`} className="p-2 rounded-lg hover:bg-white/10 text-fg-muted hover:text-indigo-400 transition-colors">
+                            <Link href={`/admin/dashboard/edit/${project.id}`} title={t.edit} className="p-2 rounded-lg hover:bg-white/10 text-fg-muted hover:text-indigo-400 transition-colors">
                                 <Edit2 size={18} />
                             </Link>
 
                             <form action={deleteProject.bind(null, project.id)}>
-                                <button title="Delete" className="p-2 rounded-lg hover:bg-red-500/10 text-fg-muted hover:text-red-400 transition-colors">
+                                <button title={t.delete} className="p-2 rounded-lg hover:bg-red-500/10 text-fg-muted hover:text-red-400 transition-colors">
                                     <Trash2 size={18} />
                                 </button>
                             </form>

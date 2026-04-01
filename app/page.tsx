@@ -73,9 +73,9 @@ export default async function Home() {
               />
 
               {projects.map((project) => {
-                // Temporary: Redirect dummy projects to /coming-soon
-                const isDummy = ['Labs', 'Notes', 'Tools'].includes(project.title);
-                const cardUrl = isDummy ? '/coming-soon' : project.subdomainUrl;
+                const cardUrl = project.isComingSoon && project.slug
+                  ? `/${project.slug}`
+                  : project.subdomainUrl;
 
                 return (
                   <Card
@@ -84,7 +84,8 @@ export default async function Home() {
                     description={project.description}
                     url={cardUrl}
                     imageUrl={project.imageUrl}
-                    isContact={false} // Explicitly set false to ensure _self target logic applies if we want, OR we need to update Card to handle internal links for /coming-soon
+                    isContact={false}
+                    isRestricted={project.isComingSoon || false}
                   />
                 )
               })}

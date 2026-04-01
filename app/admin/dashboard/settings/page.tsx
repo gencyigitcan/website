@@ -5,7 +5,37 @@ import { updateSettings } from '@/app/actions/settings'
 import { Save } from 'lucide-react'
 import PasswordForm from './PasswordForm'
 
+import { headers } from 'next/headers'
+
 export default async function SettingsPage() {
+    const headerList = await headers();
+    const acceptLanguage = headerList.get('accept-language') || 'en';
+    const isTurkish = acceptLanguage.startsWith('tr');
+
+    const t = isTurkish ? {
+        title: 'Site Ayarları',
+        subtitle: 'Karşılama sayfası içeriğini özelleştirin.',
+        hero: 'Karşılama Bölümü',
+        mainTitle: 'Ana Başlık',
+        desc: 'Açıklama',
+        contact: 'İletişim Bilgileri',
+        email: 'E-posta Adresi',
+        update: 'Ayarları Güncelle',
+        security: 'Güvenlik',
+        securityDesc: 'Giriş bilgilerinizi güncelleyin.'
+    } : {
+        title: 'Site Settings',
+        subtitle: 'Customize the landing page content.',
+        hero: 'Hero Section',
+        mainTitle: 'Main Title',
+        desc: 'Description',
+        contact: 'Contact Info',
+        email: 'Email Address',
+        update: 'Update Settings',
+        security: 'Security',
+        securityDesc: 'Update your access credentials.'
+    };
+
     const [settings] = await db.select().from(siteSettings).where(eq(siteSettings.id, 'default')).limit(1)
 
     // Fallback if not seeded (should be seeded though)
@@ -20,17 +50,17 @@ export default async function SettingsPage() {
     return (
         <div className="max-w-2xl mx-auto">
             <header className="mb-8">
-                <h1 className="text-3xl font-serif font-bold text-fg-primary mb-2">Site Settings</h1>
-                <p className="text-fg-secondary">Customize the landing page content.</p>
+                <h1 className="text-3xl font-serif font-bold text-fg-primary mb-2">{t.title}</h1>
+                <p className="text-fg-secondary">{t.subtitle}</p>
             </header>
 
             <form action={updateSettings} className="glass-panel p-8 rounded-3xl space-y-8">
 
                 <section>
-                    <h2 className="text-xl font-bold text-fg-primary mb-4 pb-2 border-b border-white/5">Hero Section</h2>
+                    <h2 className="text-xl font-bold text-fg-primary mb-4 pb-2 border-b border-white/5">{t.hero}</h2>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">Main Title</label>
+                            <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.mainTitle}</label>
                             <input
                                 name="heroTitle"
                                 type="text"
@@ -39,7 +69,7 @@ export default async function SettingsPage() {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">Description</label>
+                            <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.desc}</label>
                             <textarea
                                 name="heroDescription"
                                 rows={3}
@@ -51,10 +81,10 @@ export default async function SettingsPage() {
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-bold text-fg-primary mb-4 pb-2 border-b border-white/5">Contact Info</h2>
+                    <h2 className="text-xl font-bold text-fg-primary mb-4 pb-2 border-b border-white/5">{t.contact}</h2>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">Email Address</label>
+                            <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.email}</label>
                             <input
                                 name="contactEmail"
                                 type="email"
@@ -68,17 +98,17 @@ export default async function SettingsPage() {
                 <div className="pt-4 border-t border-white/5 flex justify-end">
                     <button type="submit" className="flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 font-bold text-white shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-1 transition-all">
                         <Save size={18} />
-                        Update Settings
+                        {t.update}
                     </button>
                 </div>
             </form>
 
             <div className="mt-12 mb-8">
-                <h2 className="text-xl font-bold text-fg-primary mb-2">Security</h2>
-                <p className="text-fg-secondary text-sm">Update your access credentials.</p>
+                <h2 className="text-xl font-bold text-fg-primary mb-2">{t.security}</h2>
+                <p className="text-fg-secondary text-sm">{t.securityDesc}</p>
             </div>
 
-            <PasswordForm />
+            <PasswordForm lang={isTurkish ? 'tr' : 'en'} />
         </div>
     )
 }

@@ -7,6 +7,9 @@ export const cards = sqliteTable('cards', {
     subdomainUrl: text('subdomain_url').notNull(),
     imageUrl: text('image_url'),
     isActive: integer('is_active', { mode: 'boolean' }).default(true),
+    isComingSoon: integer('is_coming_soon', { mode: 'boolean' }).default(false),
+    comingSoonText: text('coming_soon_text'),
+    slug: text('slug').unique(),
     createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });

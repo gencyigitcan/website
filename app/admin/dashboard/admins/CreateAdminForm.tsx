@@ -1,12 +1,14 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
 import { Plus } from 'lucide-react'
 import { createAdmin } from '@/app/actions/admin-management'
 import { useEffect, useRef } from 'react'
 
-function SubmitButton() {
+function SubmitButton({ lang }: { lang: 'tr' | 'en' }) {
     const { pending } = useFormStatus()
+    const text = lang === 'tr' ? (pending ? 'Oluşturuluyor...' : 'Yönetici Ekle') : (pending ? 'Creating...' : 'Create Admin');
     return (
         <button
             type="submit"
@@ -14,13 +16,23 @@ function SubmitButton() {
             className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 font-bold text-white shadow-lg hover:shadow-pink-500/30 hover:-translate-y-1 transition-all disabled:opacity-50"
         >
             <Plus size={20} />
-            {pending ? 'Creating...' : 'Create Admin'}
+            {text}
         </button>
     )
 }
 
-export default function CreateAdminForm() {
-    const [state, action] = useFormState(createAdmin, null)
+export default function CreateAdminForm({ lang = 'en' }: { lang?: 'tr' | 'en' }) {
+    const [state, action] = useActionState(createAdmin, null)
+    
+    const t = lang === 'tr' ? {
+        title: 'Yeni Yönetici Ekle',
+        email: 'E-posta',
+        pass: 'Şifre'
+    } : {
+        title: 'Add New Admin',
+        email: 'Email',
+        pass: 'Password'
+    };
     const formRef = useRef<HTMLFormElement>(null)
 
     useEffect(() => {
@@ -31,7 +43,7 @@ export default function CreateAdminForm() {
 
     return (
         <form ref={formRef} action={action} className="glass-panel p-6 rounded-2xl space-y-4 mb-8">
-            <h3 className="text-lg font-bold text-fg-primary mb-4">Add New Admin</h3>
+            <h3 className="text-lg font-bold text-fg-primary mb-4">{t.title}</h3>
 
             {state?.message && (
                 <div className={`text-sm p-3 rounded-xl border ${state.success ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}>
@@ -41,7 +53,7 @@ export default function CreateAdminForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wide text-fg-muted mb-2">Email</label>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-fg-muted mb-2">{t.email}</label>
                     <input
                         name="email"
                         type="email"
@@ -51,7 +63,7 @@ export default function CreateAdminForm() {
                     />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wide text-fg-muted mb-2">Password</label>
+                    <label className="block text-xs font-bold uppercase tracking-wide text-fg-muted mb-2">{t.pass}</label>
                     <input
                         name="password"
                         type="password"
@@ -63,7 +75,7 @@ export default function CreateAdminForm() {
             </div>
 
             <div className="flex justify-end">
-                <SubmitButton />
+                <SubmitButton lang={lang} />
             </div>
         </form>
     )
