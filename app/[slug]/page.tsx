@@ -1,6 +1,6 @@
 import { db } from '@/lib/db'
 import { cards, siteSettings } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { eq, or } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
@@ -15,7 +15,12 @@ export default async function RestrictedProjectPage(props: { params: Promise<{ s
 
     const project = await db.select()
         .from(cards)
-        .where(eq(cards.slug, params.slug))
+        .where(
+            or(
+                eq(cards.slug, params.slug),
+                eq(cards.slug, `/${params.slug}`)
+            )
+        )
         .get();
 
     if (!project || !project.isComingSoon) {

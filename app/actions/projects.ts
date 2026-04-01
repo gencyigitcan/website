@@ -12,7 +12,8 @@ export async function createProject(formData: FormData) {
     let subdomainUrl = formData.get('subdomainUrl') as string
     const imageUrlRaw = formData.get('imageUrl') as string | null
     const imageUrl = (imageUrlRaw && imageUrlRaw.trim() !== '') ? imageUrlRaw.trim() : null
-    const slug = formData.get('slug') as string
+    let slug = formData.get('slug') as string
+    if (slug) slug = slug.replace(/^\/+/, '')
     const isComingSoon = formData.get('isComingSoon') === 'on'
     const comingSoonText = formData.get('comingSoonText') as string
 
@@ -54,7 +55,8 @@ export async function updateProject(id: string, formData: FormData) {
     let subdomainUrl = formData.get('subdomainUrl') as string
     const imageUrlRaw = formData.get('imageUrl') as string | null
     const imageUrl = (imageUrlRaw && imageUrlRaw.trim() !== '') ? imageUrlRaw.trim() : null
-    const slug = formData.get('slug') as string
+    let slug = formData.get('slug') as string
+    if (slug) slug = slug.replace(/^\/+/, '')
     const isComingSoon = formData.get('isComingSoon') === 'on'
     const comingSoonText = formData.get('comingSoonText') as string
 

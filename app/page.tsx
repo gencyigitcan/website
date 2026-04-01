@@ -74,7 +74,7 @@ export default async function Home() {
 
               {projects.map((project) => {
                 const cardUrl = project.isComingSoon && project.slug
-                  ? `/${project.slug}`
+                  ? `/${project.slug.replace(/^\/+/, '')}`
                   : project.subdomainUrl;
 
                 return (
