@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import ThemeSwitcher from './ThemeSwitcher'
-import { Lock } from 'lucide-react'
+import { Lock, Linkedin, Github } from 'lucide-react'
 
 export default function Navbar() {
     return (
@@ -15,12 +15,34 @@ export default function Navbar() {
                     </span>
                 </Link>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-4">
+                    <a
+                        href="https://www.linkedin.com/in/gencyigitcan1/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all text-fg-muted hover:text-[#0077b5] dark:hover:text-[#0077b5] hover:scale-110 active:scale-95"
+                        aria-label="LinkedIn"
+                    >
+                        <Linkedin size={18} />
+                    </a>
+
+                    <a
+                        href="https://github.com/gencyigitcan"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all text-fg-muted hover:text-black dark:hover:text-white hover:scale-110 active:scale-95"
+                        aria-label="GitHub"
+                    >
+                        <Github size={18} />
+                    </a>
+
+                    <span className="w-px h-4 bg-black/10 dark:bg-white/10 mx-1 hidden md:block"></span>
+
                     <ThemeSwitcher />
 
                     <Link
                         href="/admin"
-                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-fg-muted hover:text-blue-600 dark:hover:text-blue-400"
+                        className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all text-fg-muted hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 active:scale-95"
                         aria-label="Admin Login"
                     >
                         <Lock size={18} />
