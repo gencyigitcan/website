@@ -41,15 +41,48 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
 
     const t = translations[lang];
 
-    const gradients = [
-        'from-[#DFB574] to-[#8A9A76]',
-        'from-[#E8C895] to-[#7D8F69]',
-        'from-[#D1A866] to-[#93A37D]',
-        'from-[#E0C08D] to-[#81946B]',
-        'from-[#CFA360] to-[#8C9B78]'
+    const PALETTES = [
+        { light: '#5A4A9E', dark: '#251E42' }, // IntelliGenç (Purple)
+        { light: '#2F7C63', dark: '#12332B' }, // Paramio (Emerald)
+        { light: '#2C3E63', dark: '#141C30' }, // Data Shield (Navy)
+        { light: '#8A5A2C', dark: '#2E2013' }, // Kanban (Earth)
+        { light: '#8A3457', dark: '#2E1420' }, // Seanso (Burgundy)
+        { light: '#2C4A8A', dark: '#141D33' }, // Waitlist (Cobalt)
+        { light: '#7C3E7A', dark: '#2A132A' }, // Fitflow (Magenta)
+        { light: '#4E7C3A', dark: '#1C2E12' }, // Year (Olive)
+        { light: '#1E7C72', dark: '#0F332E' }, // Pulse (Teal)
+        { light: '#5A3E8A', dark: '#201433' }, // Chapter (Amethyst)
+        { light: '#A17A2E', dark: '#33260F' }  // Retro UI (Bronze)
     ];
-    const hash = title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const gradient = gradients[hash % gradients.length];
+
+    const getProjectColors = (projTitle: string) => {
+        const lower = projTitle.toLowerCase();
+        if (lower.includes('intelligenç') || lower.includes('intelligenc')) return { light: '#5A4A9E', dark: '#251E42' };
+        if (lower.includes('paramio')) return { light: '#2F7C63', dark: '#12332B' };
+        if (lower.includes('data shield') || lower.includes('datashield')) return { light: '#2C3E63', dark: '#141C30' };
+        if (lower.includes('kanban')) return { light: '#8A5A2C', dark: '#2E2013' };
+        if (lower.includes('seanso')) return { light: '#8A3457', dark: '#2E1420' };
+        if (lower.includes('waitlist')) return { light: '#2C4A8A', dark: '#141D33' };
+        if (lower.includes('fitflow')) return { light: '#7C3E7A', dark: '#2A132A' };
+        if (lower.includes('year')) return { light: '#4E7C3A', dark: '#1C2E12' };
+        if (lower.includes('pulse')) return { light: '#1E7C72', dark: '#0F332E' };
+        if (lower.includes('chapter')) return { light: '#5A3E8A', dark: '#201433' };
+        if (lower.includes('retro ui') || lower.includes('retroui')) return { light: '#A17A2E', dark: '#33260F' };
+
+        // Deterministic fallback based on title hash
+        const hashVal = projTitle.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        return PALETTES[hashVal % PALETTES.length];
+    };
+
+    const colors = getProjectColors(title);
+    const backgroundStyle = {
+        background: `
+            radial-gradient(circle at 20% 20%, ${colors.light} 0%, transparent 60%),
+            radial-gradient(circle at 80% 20%, ${colors.light} 0%, transparent 60%),
+            radial-gradient(circle at 50% 80%, ${colors.light} 0%, transparent 70%),
+            ${colors.dark}
+        `
+    };
 
     const initials = title.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
@@ -79,7 +112,10 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
             className="glass-panel block rounded-2xl p-4 break-inside-avoid hover:-translate-y-2 transition-transform duration-300 group flex flex-col aspect-square"
         >
             {/* Visual Header */}
-            <div className={`relative overflow-hidden rounded-xl mb-4 h-32 flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500 ${(!imageUrl || imgError) ? `bg-gradient-to-br ${gradient}` : 'bg-gray-100 dark:bg-white/5'}`}>
+            <div 
+                style={(!imageUrl || imgError) ? backgroundStyle : undefined}
+                className={`relative overflow-hidden rounded-xl mb-4 h-32 flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500 ${(!imageUrl || imgError) ? '' : 'bg-gray-100 dark:bg-white/5'}`}
+            >
                 {(imageUrl && !imgError) ? (
                     <img
                         src={imageUrl}
