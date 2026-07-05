@@ -56,11 +56,8 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
     const getProjectIcon = () => {
         const name = iconName || 'Sparkles';
         return (
-            <div className="flex flex-col items-center gap-2.5 z-10 text-white/90">
-                <LucideIcon name={name} size={44} className="drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
-                <span className="font-serif text-sm font-bold tracking-widest drop-shadow-sm opacity-70 uppercase leading-none mt-1">
-                    {initials}
-                </span>
+            <div className="flex items-center justify-center z-10 text-white/95">
+                <LucideIcon name={name} size={48} className="drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
             </div>
         );
     };
