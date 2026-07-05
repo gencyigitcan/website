@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { cards } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
+import IconPicker from '@/components/IconPicker'
 
 import { headers } from 'next/headers'
 
@@ -34,7 +35,8 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
         active: 'Aktif (Sitede görünür)',
         cancel: 'İptal',
         save: 'Değişiklikleri Kaydet',
-        labelSortOrder: 'Sıralama / Önem Derecesi'
+        labelSortOrder: 'Sıralama / Önem Derecesi',
+        labelIcon: 'Proje İkonu (Görsel olmadığında gösterilir)'
     } : {
         back: 'Back to Projects',
         title: 'Edit Project',
@@ -49,7 +51,8 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
         active: 'Active (Visible on public site)',
         cancel: 'Cancel',
         save: 'Save Changes',
-        labelSortOrder: 'Sort Order / Importance'
+        labelSortOrder: 'Sort Order / Importance',
+        labelIcon: 'Project Icon (Shown when no image is present)'
     };
 
     const updateProjectWithId = updateProject.bind(null, project.id)
@@ -121,6 +124,9 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
                         />
                     </div>
                 </div>
+
+                <IconPicker label={t.labelIcon} defaultIcon={project.iconName || 'Sparkles'} />
+
                 <div>
                     <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelDesc}</label>
                     <textarea

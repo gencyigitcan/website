@@ -86,6 +86,7 @@ export default async function Home() {
                     imageUrl={project.imageUrl}
                     isContact={false}
                     isRestricted={project.isComingSoon || false}
+                    iconName={project.iconName}
                   />
                 )
               })}

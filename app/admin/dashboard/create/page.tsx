@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { createProject } from '@/app/actions/projects'
+import IconPicker from '@/components/IconPicker'
 
 import { headers } from 'next/headers'
 
@@ -23,7 +24,8 @@ export default async function CreateProjectPage() {
         active: 'Aktif (Sitede görünür)',
         cancel: 'İptal',
         create: 'Proje Oluştur',
-        labelSortOrder: 'Sıralama / Önem Derecesi'
+        labelSortOrder: 'Sıralama / Önem Derecesi',
+        labelIcon: 'Proje İkonu (Görsel olmadığında gösterilir)'
     } : {
         back: 'Back to Projects',
         title: 'New Project',
@@ -38,7 +40,8 @@ export default async function CreateProjectPage() {
         active: 'Active (Visible on public site)',
         cancel: 'Cancel',
         create: 'Create Project',
-        labelSortOrder: 'Sort Order / Importance'
+        labelSortOrder: 'Sort Order / Importance',
+        labelIcon: 'Project Icon (Shown when no image is present)'
     };
 
     return (
@@ -105,6 +108,8 @@ export default async function CreateProjectPage() {
                         />
                     </div>
                 </div>
+
+                <IconPicker label={t.labelIcon} defaultIcon="Sparkles" />
 
                 <div>
                     <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelDesc}</label>

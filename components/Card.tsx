@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ExternalLink, Brain, Calendar, Sparkles } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
+import LucideIcon from '@/components/LucideIcon'
 import { useTheme } from '@/context/ThemeContext'
 import clsx from 'clsx'
 
@@ -12,9 +13,10 @@ interface CardProps {
     imageUrl?: string | null
     isContact?: boolean
     isRestricted?: boolean
+    iconName?: string | null
 }
 
-export default function Card({ title, description, url, imageUrl, isContact, isRestricted }: CardProps) {
+export default function Card({ title, description, url, imageUrl, isContact, isRestricted, iconName }: CardProps) {
     const { theme } = useTheme()
     const [lang, setLang] = useState<'tr' | 'en'>('en')
     const [imgError, setImgError] = useState(false)
@@ -52,17 +54,11 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
     const initials = title.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
     const getProjectIcon = () => {
-        const lowerTitle = title.toLowerCase();
-        if (lowerTitle.includes('intelligenç') || lowerTitle.includes('intelligenc')) {
-            return <Brain size={48} className="text-white/90 drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10" />;
-        }
-        if (lowerTitle.includes('seanso')) {
-            return <Calendar size={48} className="text-white/90 drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10" />;
-        }
+        const name = iconName || 'Sparkles';
         return (
-            <div className="flex flex-col items-center gap-2 z-10">
-                <Sparkles size={36} className="text-white/80 group-hover:scale-110 transition-transform duration-300" />
-                <span className="font-serif text-3xl text-white/95 font-bold tracking-widest drop-shadow-sm">
+            <div className="flex flex-col items-center gap-2.5 z-10 text-white/90">
+                <LucideIcon name={name} size={44} className="drop-shadow-sm group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-serif text-sm font-bold tracking-widest drop-shadow-sm opacity-70 uppercase leading-none mt-1">
                     {initials}
                 </span>
             </div>

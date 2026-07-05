@@ -11,6 +11,7 @@ export const cards = sqliteTable('cards', {
     comingSoonText: text('coming_soon_text'),
     slug: text('slug').unique(),
     sortOrder: integer('sort_order').default(0),
+    iconName: text('icon_name').default('Sparkles'),
     createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });

@@ -23,6 +23,7 @@ export async function createProject(formData: FormData) {
 
     const isActive = formData.get('isActive') === 'on'
     const sortOrder = parseInt(formData.get('sortOrder') as string, 10) || 0
+    const iconName = (formData.get('iconName') as string) || 'Sparkles'
 
     if (!title || !description || (!subdomainUrl && !isComingSoon)) {
         // Handle validation error
@@ -39,7 +40,8 @@ export async function createProject(formData: FormData) {
             isComingSoon,
             comingSoonText,
             slug: slug || undefined,
-            sortOrder
+            sortOrder,
+            iconName
         })
     } catch (e) {
         console.error('Failed to create project', e)
@@ -62,6 +64,7 @@ export async function updateProject(id: string, formData: FormData) {
     const isComingSoon = formData.get('isComingSoon') === 'on'
     const comingSoonText = formData.get('comingSoonText') as string
     const sortOrder = parseInt(formData.get('sortOrder') as string, 10) || 0
+    const iconName = (formData.get('iconName') as string) || 'Sparkles'
 
     if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
         subdomainUrl = `https://${subdomainUrl}`
@@ -80,6 +83,7 @@ export async function updateProject(id: string, formData: FormData) {
             comingSoonText,
             slug: slug || null,
             sortOrder,
+            iconName,
             updatedAt: new Date()
         }).where(eq(cards.id, id))
     } catch (e) {
