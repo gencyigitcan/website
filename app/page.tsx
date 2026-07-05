@@ -50,9 +50,8 @@ export default async function Home() {
       <div className="flex-1 overflow-y-auto w-full pt-20 pb-10 px-4 md:px-8">
         <div className="max-w-[1600px] mx-auto flex flex-col h-full">
 
-          {/* Hero Section */}
           <header className="flex-none pt-10 pb-8 text-center max-w-4xl mx-auto">
-            <span className="inline-block py-1 px-3 rounded-full bg-white/10 dark:bg-white/5 border border-black/5 dark:border-white/10 text-xs font-medium tracking-wider mb-4 text-blue-500 dark:text-blue-300 uppercase animate-float">
+            <span className="inline-block py-1 px-3 rounded-full bg-white/10 dark:bg-white/5 border border-black/5 dark:border-white/10 text-xs font-medium tracking-wider mb-4 text-[#DFB574] dark:text-[#DFB574] uppercase animate-float">
               Portfolio & Showcase
             </span>
             <h1 className="font-serif text-4xl md:text-6xl mb-4 leading-tight text-fg-primary">

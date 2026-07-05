@@ -42,11 +42,11 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
     const t = translations[lang];
 
     const gradients = [
-        'from-blue-600 to-indigo-700',
-        'from-sky-600 to-blue-700',
-        'from-blue-800 to-slate-900',
-        'from-cyan-600 to-blue-600',
-        'from-indigo-600 to-violet-700'
+        'from-[#DFB574] to-[#8A9A76]',
+        'from-[#E8C895] to-[#7D8F69]',
+        'from-[#D1A866] to-[#93A37D]',
+        'from-[#E0C08D] to-[#81946B]',
+        'from-[#CFA360] to-[#8C9B78]'
     ];
     const hash = title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const gradient = gradients[hash % gradients.length];
@@ -97,8 +97,8 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
 
             <div className="flex flex-col gap-3 flex-1">
                 <div className="flex justify-between items-start">
-                    <h3 className="font-bold text-lg tracking-wide text-fg-primary group-hover:text-pink-500 transition-colors">{title}</h3>
-                    <ExternalLink size={16} className="text-fg-muted group-hover:text-fg-primary transition-colors mt-1" />
+                    <h3 className="font-bold text-lg tracking-wide text-fg-primary group-hover:text-[#DFB574] transition-colors">{title}</h3>
+                    <ExternalLink size={16} className="text-fg-muted group-hover:text-[#DFB574] transition-colors mt-1" />
                 </div>
 
                 <p className="font-sans text-sm leading-relaxed line-clamp-3 text-fg-secondary">
@@ -107,9 +107,9 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
 
                 <div className="mt-auto pt-4 flex items-center gap-2 border-t border-dashed" style={{ borderColor: 'var(--card-border)' }}>
                     <div className={clsx(
-                        "h-1.5 w-1.5 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.6)]",
-                        isContact ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]" : 
-                        isRestricted ? "bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "bg-emerald-400"
+                        "h-1.5 w-1.5 rounded-full",
+                        isContact ? "bg-[#DFB574] shadow-[0_0_8px_rgba(223,181,116,0.6)]" : 
+                        isRestricted ? "bg-white/20" : "bg-[#8A9A76] shadow-[0_0_8px_rgba(138,154,118,0.6)]"
                     )}></div>
                     <span className="text-xs text-fg-muted font-medium tracking-wide uppercase">
                         {isContact ? t.contact : isRestricted ? t.private : t.live}
