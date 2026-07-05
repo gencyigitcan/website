@@ -32,6 +32,61 @@ export default async function Home() {
 
   const heroTitle = settings?.heroTitle || 'Yiğitcan Genç';
 
+  const PALETTES = [
+    { name: 'intelligenç', light: '#5A4A9E', dark: '#251E42' },
+    { name: 'paramio', light: '#2F7C63', dark: '#12332B' },
+    { name: 'data shield', light: '#2C3E63', dark: '#141C30' },
+    { name: 'kanban', light: '#8A5A2C', dark: '#2E2013' },
+    { name: 'seanso', light: '#8A3457', dark: '#2E1420' },
+    { name: 'waitlist', light: '#2C4A8A', dark: '#141D33' },
+    { name: 'fitflow', light: '#7C3E7A', dark: '#2A132A' },
+    { name: 'year', light: '#4E7C3A', dark: '#1C2E12' },
+    { name: 'pulse', light: '#1E7C72', dark: '#0F332E' },
+    { name: 'chapter', light: '#5A3E8A', dark: '#201433' },
+    { name: 'retro ui', light: '#A17A2E', dark: '#33260F' }
+  ];
+
+  const getFixedPalette = (projTitle: string) => {
+    const lower = projTitle.toLowerCase();
+    if (lower.includes('intelligenç') || lower.includes('intelligenc')) return PALETTES[0];
+    if (lower.includes('paramio')) return PALETTES[1];
+    if (lower.includes('data shield') || lower.includes('datashield')) return PALETTES[2];
+    if (lower.includes('kanban')) return PALETTES[3];
+    if (lower.includes('seanso')) return PALETTES[4];
+    if (lower.includes('waitlist')) return PALETTES[5];
+    if (lower.includes('fitflow')) return PALETTES[6];
+    if (lower.includes('year')) return PALETTES[7];
+    if (lower.includes('pulse')) return PALETTES[8];
+    if (lower.includes('chapter')) return PALETTES[9];
+    if (lower.includes('retro ui') || lower.includes('retroui')) return PALETTES[10];
+    return null;
+  };
+
+  const usedPaletteNames = new Set<string>();
+  const projectPaletteMap = new Map<string, { light: string, dark: string }>();
+
+  // 1st Pass: Assign fixed colors
+  projects.forEach(project => {
+    const fixed = getFixedPalette(project.title);
+    if (fixed) {
+      projectPaletteMap.set(project.id, { light: fixed.light, dark: fixed.dark });
+      usedPaletteNames.add(fixed.name);
+    }
+  });
+
+  // 2nd Pass: Distribute unused palettes to other projects
+  let unusedPalettes = PALETTES.filter(p => !usedPaletteNames.has(p.name));
+
+  projects.forEach(project => {
+    if (!projectPaletteMap.has(project.id)) {
+      if (unusedPalettes.length === 0) {
+        unusedPalettes = [...PALETTES];
+      }
+      const selectedPalette = unusedPalettes.shift()!;
+      projectPaletteMap.set(project.id, { light: selectedPalette.light, dark: selectedPalette.dark });
+      usedPaletteNames.add(selectedPalette.name);
+    }
+  });
 
   const contactCard = {
     id: 'contact-card',
@@ -86,6 +141,7 @@ export default async function Home() {
                     isContact={false}
                     isRestricted={project.isComingSoon || false}
                     iconName={project.iconName}
+                    customColors={projectPaletteMap.get(project.id)}
                   />
                 )
               })}

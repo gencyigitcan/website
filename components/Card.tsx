@@ -14,9 +14,10 @@ interface CardProps {
     isContact?: boolean
     isRestricted?: boolean
     iconName?: string | null
+    customColors?: { light: string; dark: string } | null
 }
 
-export default function Card({ title, description, url, imageUrl, isContact, isRestricted, iconName }: CardProps) {
+export default function Card({ title, description, url, imageUrl, isContact, isRestricted, iconName, customColors }: CardProps) {
     const { theme } = useTheme()
     const [lang, setLang] = useState<'tr' | 'en'>('en')
     const [imgError, setImgError] = useState(false)
@@ -55,8 +56,11 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
         { light: '#A17A2E', dark: '#33260F' }  // Retro UI (Bronze)
     ];
 
-    const getProjectColors = (projTitle: string) => {
-        const lower = projTitle.toLowerCase();
+    const getProjectColors = () => {
+        if (customColors) return customColors;
+        if (isContact) return { light: '#A17A2E', dark: '#33260F' }; // default gold for contact
+
+        const lower = title.toLowerCase();
         if (lower.includes('intelligenç') || lower.includes('intelligenc')) return { light: '#5A4A9E', dark: '#251E42' };
         if (lower.includes('paramio')) return { light: '#2F7C63', dark: '#12332B' };
         if (lower.includes('data shield') || lower.includes('datashield')) return { light: '#2C3E63', dark: '#141C30' };
@@ -70,11 +74,11 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
         if (lower.includes('retro ui') || lower.includes('retroui')) return { light: '#A17A2E', dark: '#33260F' };
 
         // Deterministic fallback based on title hash
-        const hashVal = projTitle.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const hashVal = title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
         return PALETTES[hashVal % PALETTES.length];
     };
 
-    const colors = getProjectColors(title);
+    const colors = getProjectColors();
     const backgroundStyle = {
         background: `
             radial-gradient(circle at 20% 20%, ${colors.light} 0%, transparent 60%),
