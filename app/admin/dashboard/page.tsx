@@ -2,13 +2,19 @@ import { db } from '@/lib/db'
 import { cards } from '@/db/schema'
 import { desc } from 'drizzle-orm'
 import Link from 'next/link'
-import { Plus, Edit2, Trash2, ExternalLink, Power, Lock } from 'lucide-react'
-import { deleteProject, toggleProject } from '@/app/actions/projects'
+import { Plus } from 'lucide-react'
+import DragDropProjectList from './DragDropProjectList'
 
 import { headers } from 'next/headers'
 
 export default async function Dashboard() {
-    const projects = await db.select().from(cards).orderBy(desc(cards.createdAt))
+    const projects = await db.select().from(cards).orderBy(desc(cards.sortOrder), desc(cards.createdAt))
+    const serializedProjects = projects.map(project => ({
+        ...project,
+        createdAt: project.createdAt ? project.createdAt.toISOString() : null,
+        updatedAt: project.updatedAt ? project.updatedAt.toISOString() : null,
+    }))
+
     const headerList = await headers();
     const acceptLanguage = headerList.get('accept-language') || 'en';
     const isTurkish = acceptLanguage.startsWith('tr');
@@ -23,7 +29,8 @@ export default async function Dashboard() {
         deactivate: 'Pasif Yap',
         activate: 'Aktif Yap',
         edit: 'Düzenle',
-        delete: 'Sil'
+        delete: 'Sil',
+        orderLabel: 'Sıra'
     } : {
         title: 'Projects',
         subtitle: 'Manage your portfolio showcase items.',
@@ -34,7 +41,8 @@ export default async function Dashboard() {
         deactivate: 'Deactivate',
         activate: 'Activate',
         edit: 'Edit',
-        delete: 'Delete'
+        delete: 'Delete',
+        orderLabel: 'Order'
     }
 
     return (
@@ -53,54 +61,7 @@ export default async function Dashboard() {
                 </Link>
             </header>
 
-            <div className="grid grid-cols-1 gap-4">
-                {projects.map((project) => (
-                    <div key={project.id} className="glass-panel p-6 rounded-2xl flex items-center gap-6 group">
-
-                        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-500/20 to-pink-500/20 flex items-center justify-center border border-white/10 shrink-0">
-                            <span className="font-serif text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-pink-500">
-                                {project.title.substring(0, 2).toUpperCase()}
-                            </span>
-                        </div>
-
-                        <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-3 mb-1">
-                                <h3 className="text-lg font-bold text-fg-primary truncate">{project.title}</h3>
-                                {project.isActive ? (
-                                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-medium uppercase tracking-wide">{t.active}</span>
-                                ) : (
-                                    <span className="px-2 py-0.5 rounded-full bg-slate-500/10 border border-slate-500/20 text-slate-500 text-xs font-medium uppercase tracking-wide">{t.draft}</span>
-                                )}
-                                {project.isComingSoon && (
-                                    <span className={`px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-500 text-xs font-medium uppercase tracking-wide flex items-center gap-1`}>
-                                        <Lock size={10} />
-                                        {t.restricted}
-                                    </span>
-                                )}
-                            </div>
-                            <p className="text-sm text-fg-secondary truncate">{project.subdomainUrl}</p>
-                        </div>
-
-                        <div className="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                            <form action={toggleProject.bind(null, project.id, !project.isActive)}>
-                                <button title={project.isActive ? t.deactivate : t.activate} className="p-2 rounded-lg hover:bg-white/10 text-fg-muted hover:text-fg-primary transition-colors">
-                                    <Power size={18} className={project.isActive ? "text-emerald-400" : "text-slate-400"} />
-                                </button>
-                            </form>
-
-                            <Link href={`/admin/dashboard/edit/${project.id}`} title={t.edit} className="p-2 rounded-lg hover:bg-white/10 text-fg-muted hover:text-indigo-400 transition-colors">
-                                <Edit2 size={18} />
-                            </Link>
-
-                            <form action={deleteProject.bind(null, project.id)}>
-                                <button title={t.delete} className="p-2 rounded-lg hover:bg-red-500/10 text-fg-muted hover:text-red-400 transition-colors">
-                                    <Trash2 size={18} />
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <DragDropProjectList initialProjects={serializedProjects} t={t} />
         </div>
     )
 }

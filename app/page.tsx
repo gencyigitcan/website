@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Card from '@/components/Card'
+import PageViewTracker from '@/components/PageViewTracker'
 import { db } from '@/lib/db'
 import { cards, siteSettings } from '@/db/schema'
 import { desc, eq } from 'drizzle-orm'
@@ -13,7 +14,7 @@ async function getData() {
     const projectsPromise = db.select()
       .from(cards)
       .where(eq(cards.isActive, true))
-      .orderBy(desc(cards.createdAt));
+      .orderBy(desc(cards.sortOrder), desc(cards.createdAt));
 
     const settingsPromise = db.select().from(siteSettings).where(eq(siteSettings.id, 'default')).get();
 
@@ -42,6 +43,7 @@ export default async function Home() {
 
   return (
     <main className="h-screen flex flex-col relative text-fg-primary overflow-hidden">
+      <PageViewTracker />
       <Navbar />
 
       {/* Content Container - Flex Col to prevent main scroll if possible, internal scroll if needed */}
@@ -73,16 +75,14 @@ export default async function Home() {
               />
 
               {projects.map((project) => {
-                const cardUrl = project.isComingSoon && project.slug
-                  ? `/${project.slug.replace(/^\/+/, '')}`
-                  : project.subdomainUrl;
+                const clickUrl = `/api/projects/${project.id}/click`;
 
                 return (
                   <Card
                     key={project.id}
                     title={project.title}
                     description={project.description}
-                    url={cardUrl}
+                    url={clickUrl}
                     imageUrl={project.imageUrl}
                     isContact={false}
                     isRestricted={project.isComingSoon || false}

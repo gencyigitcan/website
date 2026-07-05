@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Globe, LogOut, Settings, Users } from 'lucide-react'
+import { LayoutDashboard, Globe, LogOut, Settings, Users, BarChart3 } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 export default function AdminSidebar() {
@@ -20,13 +20,15 @@ export default function AdminSidebar() {
         admins: 'Yöneticiler',
         settings: 'Site Ayarları',
         view: 'Siteyi Görüntüle',
-        signout: 'Çıkış Yap'
+        signout: 'Çıkış Yap',
+        analytics: 'Analitik'
     } : {
         projects: 'Projects',
         admins: 'Admins',
         settings: 'Site Settings',
         view: 'View Site',
-        signout: 'Sign Out'
+        signout: 'Sign Out',
+        analytics: 'Analytics'
     }
 
     const isActive = (path: string) => pathname === path
@@ -52,6 +54,17 @@ export default function AdminSidebar() {
                 >
                     <LayoutDashboard size={18} className={isActive('/admin/dashboard') ? "text-blue-400" : ""} />
                     {t.projects}
+                </Link>
+
+                <Link
+                    href="/admin/dashboard/analytics"
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive('/admin/dashboard/analytics')
+                        ? 'bg-white/10 text-fg-primary font-medium border border-white/5 shadow-sm'
+                        : 'hover:bg-white/5 text-fg-secondary hover:text-fg-primary'
+                        }`}
+                >
+                    <BarChart3 size={18} className={isActive('/admin/dashboard/analytics') ? "text-blue-400" : ""} />
+                    {t.analytics}
                 </Link>
 
                 <Link

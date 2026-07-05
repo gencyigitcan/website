@@ -22,7 +22,8 @@ export default async function CreateProjectPage() {
         defaultMsg: 'Bu projeyi görmek için mail ile iletişime geçebilirsiniz.',
         active: 'Aktif (Sitede görünür)',
         cancel: 'İptal',
-        create: 'Proje Oluştur'
+        create: 'Proje Oluştur',
+        labelSortOrder: 'Sıralama / Önem Derecesi'
     } : {
         back: 'Back to Projects',
         title: 'New Project',
@@ -36,7 +37,8 @@ export default async function CreateProjectPage() {
         defaultMsg: 'You can contact me via email to see this project.',
         active: 'Active (Visible on public site)',
         cancel: 'Cancel',
-        create: 'Create Project'
+        create: 'Create Project',
+        labelSortOrder: 'Sort Order / Importance'
     };
 
     return (
@@ -48,7 +50,7 @@ export default async function CreateProjectPage() {
                 </Link>
                 <h1 className="text-3xl font-serif font-bold text-fg-primary">{t.title}</h1>
             </header>
-
+ 
             <form action={createProject} className="glass-panel p-8 rounded-3xl space-y-6">
                 <div>
                     <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelTitle}</label>
@@ -82,14 +84,26 @@ export default async function CreateProjectPage() {
                     </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelImg}</label>
-                    <input
-                        name="imageUrl"
-                        type="text"
-                        className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
-                        placeholder="https://..."
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelImg}</label>
+                        <input
+                            name="imageUrl"
+                            type="text"
+                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
+                            placeholder="https://..."
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelSortOrder}</label>
+                        <input
+                            name="sortOrder"
+                            type="number"
+                            defaultValue={0}
+                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
+                            placeholder="e.g. 10"
+                        />
+                    </div>
                 </div>
 
                 <div>

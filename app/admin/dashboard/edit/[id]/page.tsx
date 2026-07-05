@@ -33,7 +33,8 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
         defaultMsg: 'Bu projeyi görmek için mail ile iletişime geçebilirsiniz.',
         active: 'Aktif (Sitede görünür)',
         cancel: 'İptal',
-        save: 'Değişiklikleri Kaydet'
+        save: 'Değişiklikleri Kaydet',
+        labelSortOrder: 'Sıralama / Önem Derecesi'
     } : {
         back: 'Back to Projects',
         title: 'Edit Project',
@@ -47,7 +48,8 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
         defaultMsg: 'You can contact me via email to see this project.',
         active: 'Active (Visible on public site)',
         cancel: 'Cancel',
-        save: 'Save Changes'
+        save: 'Save Changes',
+        labelSortOrder: 'Sort Order / Importance'
     };
 
     const updateProjectWithId = updateProject.bind(null, project.id)
@@ -97,15 +99,27 @@ export default async function EditProjectPage(props: { params: Promise<{ id: str
                     </div>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelImg}</label>
-                    <input
-                        name="imageUrl"
-                        type="text"
-                        defaultValue={project.imageUrl || ''}
-                        className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
-                        placeholder="https://..."
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelImg}</label>
+                        <input
+                            name="imageUrl"
+                            type="text"
+                            defaultValue={project.imageUrl || ''}
+                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
+                            placeholder="https://..."
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelSortOrder}</label>
+                        <input
+                            name="sortOrder"
+                            type="number"
+                            defaultValue={project.sortOrder ?? 0}
+                            className="w-full input-glass rounded-xl px-4 py-3 outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all placeholder:opacity-20 bg-[var(--input-bg)]"
+                            placeholder="e.g. 10"
+                        />
+                    </div>
                 </div>
                 <div>
                     <label className="block text-sm font-bold uppercase tracking-wide text-fg-muted mb-2">{t.labelDesc}</label>

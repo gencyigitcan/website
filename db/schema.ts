@@ -10,6 +10,7 @@ export const cards = sqliteTable('cards', {
     isComingSoon: integer('is_coming_soon', { mode: 'boolean' }).default(false),
     comingSoonText: text('coming_soon_text'),
     slug: text('slug').unique(),
+    sortOrder: integer('sort_order').default(0),
     createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });
@@ -27,4 +28,14 @@ export const siteSettings = sqliteTable('site_settings', {
     heroDescription: text('hero_description').default('Yazılım geliştirici olarak ürettiğim projeleri ve yayınladığım uygulamaları burada bulabilirsiniz.'),
     contactEmail: text('contact_email').default('yigitcangenc@gmail.com'),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
+});
+
+export const analytics = sqliteTable('analytics', {
+    id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+    cardId: text('card_id').references(() => cards.id, { onDelete: 'cascade' }),
+    ipAddress: text('ip_address'),
+    country: text('country'),
+    referrer: text('referrer'),
+    userAgent: text('user_agent'),
+    createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });

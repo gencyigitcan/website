@@ -22,6 +22,7 @@ export async function createProject(formData: FormData) {
     }
 
     const isActive = formData.get('isActive') === 'on'
+    const sortOrder = parseInt(formData.get('sortOrder') as string, 10) || 0
 
     if (!title || !description || (!subdomainUrl && !isComingSoon)) {
         // Handle validation error
@@ -37,7 +38,8 @@ export async function createProject(formData: FormData) {
             isActive,
             isComingSoon,
             comingSoonText,
-            slug: slug || undefined
+            slug: slug || undefined,
+            sortOrder
         })
     } catch (e) {
         console.error('Failed to create project', e)
@@ -59,6 +61,7 @@ export async function updateProject(id: string, formData: FormData) {
     if (slug) slug = slug.replace(/^\/+/, '')
     const isComingSoon = formData.get('isComingSoon') === 'on'
     const comingSoonText = formData.get('comingSoonText') as string
+    const sortOrder = parseInt(formData.get('sortOrder') as string, 10) || 0
 
     if (subdomainUrl && !subdomainUrl.startsWith('/') && !subdomainUrl.match(/^https?:\/\//)) {
         subdomainUrl = `https://${subdomainUrl}`
@@ -76,6 +79,7 @@ export async function updateProject(id: string, formData: FormData) {
             isComingSoon,
             comingSoonText,
             slug: slug || null,
+            sortOrder,
             updatedAt: new Date()
         }).where(eq(cards.id, id))
     } catch (e) {
@@ -105,5 +109,22 @@ export async function toggleProject(id: string, newState: boolean) {
         revalidatePath('/admin/dashboard')
     } catch (e) {
         console.error("Toggle failed", e)
+    }
+}
+
+export async function updateProjectsOrder(orders: { id: string, sortOrder: number }[]) {
+    try {
+        await Promise.all(
+            orders.map(order => 
+                db.update(cards)
+                    .set({ sortOrder: order.sortOrder })
+                    .where(eq(cards.id, order.id))
+            )
+        )
+        revalidatePath('/')
+        revalidatePath('/admin/dashboard')
+    } catch (e) {
+        console.error("Failed to update projects order", e)
+        throw e
     }
 }
