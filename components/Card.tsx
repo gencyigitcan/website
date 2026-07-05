@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Brain, Calendar, Sparkles } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
 import clsx from 'clsx'
 
@@ -51,6 +51,24 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
 
     const initials = title.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
+    const getProjectIcon = () => {
+        const lowerTitle = title.toLowerCase();
+        if (lowerTitle.includes('intelligenç') || lowerTitle.includes('intelligenc')) {
+            return <Brain size={48} className="text-white/90 drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10" />;
+        }
+        if (lowerTitle.includes('seanso')) {
+            return <Calendar size={48} className="text-white/90 drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10" />;
+        }
+        return (
+            <div className="flex flex-col items-center gap-2 z-10">
+                <Sparkles size={36} className="text-white/80 group-hover:scale-110 transition-transform duration-300" />
+                <span className="font-serif text-3xl text-white/95 font-bold tracking-widest drop-shadow-sm">
+                    {initials}
+                </span>
+            </div>
+        );
+    };
+
     const isInternal = url.startsWith('/');
     let href = url;
     if (!isInternal && !url.match(/^https?:\/\//) && !url.startsWith('mailto:')) {
@@ -68,7 +86,6 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
             className="glass-panel block rounded-2xl p-4 break-inside-avoid hover:-translate-y-2 transition-transform duration-300 group flex flex-col aspect-square"
         >
             {/* Visual Header */}
-            {/* Visual Header */}
             <div className={`relative overflow-hidden rounded-xl mb-4 h-32 flex items-center justify-center shadow-lg group-hover:scale-[1.03] transition-transform duration-500 ${(!imageUrl || imgError) ? `bg-gradient-to-br ${gradient}` : 'bg-gray-100 dark:bg-white/5'}`}>
                 {(imageUrl && !imgError) ? (
                     <img
@@ -79,9 +96,7 @@ export default function Card({ title, description, url, imageUrl, isContact, isR
                     />
                 ) : (
                     <>
-                        <span className="font-serif text-4xl text-white/95 font-bold tracking-widest drop-shadow-sm">
-                            {initials}
-                        </span>
+                        {getProjectIcon()}
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                     </>
                 )}
